@@ -1,0 +1,105 @@
+<resources>
+    <string name="app_name">P2-LinearLayaut</string>
+
+    <!-- Barra superior -->
+    <string name="toolbar_titulo">Inscripción a taller</string>
+    <string name="toolbar_subtitulo">Demostración de LinearLayout · Material 3</string>
+
+    <!-- Encabezado de perfil (ImageView + TextView) -->
+    <string name="cd_avatar">Avatar del participante</string>
+    <string name="cd_logo">Logotipo de la aplicación</string>
+    <string name="perfil_nombre">Participante invitado</string>
+    <string name="perfil_detalle">Ingeniería en Sistemas Computacionales</string>
+
+    <!-- Sección: anatomía del LinearLayout -->
+    <string name="sec_anatomia">1. Anatomía de LinearLayout</string>
+    <string name="sec_anatomia_desc">Fila horizontal con weightSum=4: los hijos usan layout_width=0dp y reparten el espacio según su layout_weight (1 : 2 : 1).</string>
+    <string name="peso_1">peso 1</string>
+    <string name="peso_2">peso 2</string>
+    <string name="gravedad_desc">Columna vertical: cada hijo se alinea con layout_gravity.</string>
+    <string name="gravedad_inicio">start</string>
+    <string name="gravedad_centro">center_horizontal</string>
+    <string name="gravedad_fin">end</string>
+
+    <!-- Sección: EditText -->
+    <string name="sec_edittext">2. EditText (TextInputLayout)</string>
+    <string name="hint_nombre">Nombre</string>
+    <string name="hint_apellido">Apellido</string>
+    <string name="hint_correo">Correo institucional</string>
+    <string name="helper_correo">Ejemplo: alumno@tesoem.edu.mx</string>
+    <string name="hint_comentario">EditText clásico (sin TextInputLayout)</string>
+
+    <!-- Sección: TextView -->
+    <string name="sec_textview">3. TextView (escalas tipográficas M3)</string>
+    <string name="tv_display">Display Small</string>
+    <string name="tv_headline">Headline Small</string>
+    <string name="tv_title">Title Medium</string>
+    <string name="tv_body">Body Medium: texto de lectura normal para párrafos.</string>
+    <string name="tv_label">Label Small</string>
+    <string name="tv_preview_vacio">Vista previa: escribe tu nombre arriba…</string>
+    <string name="tv_preview">Vista previa: Hola, %1$s</string>
+
+    <!-- Sección: Buttons -->
+    <string name="sec_buttons">4. Button y sus variantes</string>
+    <string name="btn_filled">Filled</string>
+    <string name="btn_tonal">Tonal</string>
+    <string name="btn_elevated">Elevated</string>
+    <string name="btn_outlined">Outlined</string>
+    <string name="btn_text">Text</string>
+    <string name="btn_icon_texto">Con icono</string>
+    <string name="cd_btn_favorito">Botón de icono: favorito</string>
+    <string name="cd_btn_agregar">Botón de icono relleno: agregar</string>
+    <string name="toggle_dia">Día</string>
+    <string name="toggle_semana">Semana</string>
+    <string name="toggle_mes">Mes</string>
+    <string name="msg_boton">Pulsaste el botón: %1$s</string>
+
+    <!-- Sección: Chips -->
+    <string name="sec_chips">5. Chips</string>
+    <string name="chip_assist">Assist: agregar al calendario</string>
+    <string name="chip_filter_android">Android</string>
+    <string name="chip_filter_java">Java</string>
+    <string name="chip_filter_ui">UI/UX</string>
+    <string name="chip_input">Input: TESOEM</string>
+    <string name="chip_suggestion">Suggestion: turno matutino</string>
+    <string name="msg_filtros">Filtros activos: %1$s</string>
+    <string name="msg_filtros_ninguno">Filtros activos: ninguno</string>
+    <string name="msg_chip_eliminado">Chip de entrada eliminado</string>
+
+    <!-- Sección: Cards -->
+    <string name="sec_cards">6. Cards (MaterialCardView)</string>
+    <string name="card_elevated">Elevated</string>
+    <string name="card_filled">Filled</string>
+    <string name="card_outlined">Outlined</string>
+    <string name="card_desc">Toca la tarjeta</string>
+    <string name="card_outlined_desc">Mantén presionado para marcar</string>
+    <string name="msg_card">Tarjeta seleccionada: %1$s</string>
+
+    <!-- Sección: CheckBox -->
+    <string name="sec_checkbox">7. CheckBox</string>
+    <string name="cb_constancia">Requiero constancia</string>
+    <string name="cb_material">Deseo material impreso</string>
+    <string name="cb_aviso">Acepto el aviso de privacidad</string>
+    <string name="msg_checks">Casillas marcadas: %1$d de 3</string>
+
+    <!-- Sección: RadioButton -->
+    <string name="sec_radio">8. RadioButton (RadioGroup)</string>
+    <string name="rb_presencial">Presencial</string>
+    <string name="rb_linea">En línea</string>
+    <string name="rb_hibrido">Híbrido</string>
+    <string name="msg_radio">Modalidad elegida: %1$s</string>
+
+    <!-- Sección: ImageView -->
+    <string name="sec_imageview">9. ImageView</string>
+    <string name="img_desc">ImageView normal (fitCenter) junto a ShapeableImageView circular.</string>
+
+    <!-- Sección: ProgressBar -->
+    <string name="sec_progress">10. ProgressBar e indicadores M3</string>
+    <string name="progress_menos">−10 %</string>
+    <string name="progress_mas">+10 %</string>
+    <string name="msg_progreso">Avance de inscripción: %1$d %%</string>
+
+    <!-- Acción final -->
+    <string name="btn_inscribirme">Inscribirme</string>
+    <string name="msg_inscripcion">Demostración: inscripción enviada (sin validaciones)</string>
+</resources>

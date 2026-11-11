@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    ============================================================================
+    PRÁCTICA 2 · LinearLayout con Material Design 3 / Material You
+    ============================================================================
+    Estructura general (árbol de vistas):
+
+    LinearLayout (raíz, vertical)
+     ├── MaterialToolbar ............ alto = wrap_content
+     ├── NestedScrollView ........... alto = 0dp + layout_weight=1 (ocupa el resto)
+     │    └── LinearLayout (vertical) contenedor de secciones
+     │         ├── Encabezado (LinearLayout horizontal: ImageView + textos)
+     │         ├── 1. Anatomía (weight / weightSum / gravity / layout_gravity)
+     │         ├── 2. EditText  ... 10. ProgressBar
+     └── LinearLayout horizontal (barra inferior fija con el botón principal)
+
+    LinearLayout acomoda a sus hijos en UNA sola dirección (fila o columna)
+    según android:orientation. Es el layout más sencillo de razonar: el orden
+    del XML es el orden en pantalla.
+    ============================================================================
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <!-- Barra superior Material 3 (alto natural: wrap_content) -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurfaceContainer"
+        app:subtitle="@string/toolbar_subtitulo"
+        app:title="@string/toolbar_titulo" />
+
+    <!--
+        layout_height="0dp" + layout_weight="1":
+        el LinearLayout primero mide a los hermanos con tamaño fijo (Toolbar y
+        barra inferior) y el espacio sobrante se entrega a esta vista.
+        Así el scroll ocupa "todo lo que queda" sin tapar la barra inferior.
+    -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false">
+
+        <!-- Contenedor vertical de todas las secciones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- =========================================================
+                 ENCABEZADO: LinearLayout HORIZONTAL
+                 ImageView (tamaño fijo) + columna de textos (peso 1)
+                 gravity="center_vertical" centra a los hijos en el eje Y.
+                 ========================================================= -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:background="?attr/colorPrimaryContainer"
+                    android:contentDescription="@string/cd_avatar"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_person"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.P2.Circulo"
+                    app:tint="?attr/colorOnPrimaryContainer" />
+
+                <!-- Columna de texto: ancho 0dp + peso 1 = "el resto de la fila" -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/perfil_nombre"
+                        android:textAppearance="?attr/textAppearanceTitleLarge" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/perfil_detalle"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp" />
+
+            <!-- =========================================================
+                 1. ANATOMÍA DE LINEARLAYOUT
+                 ========================================================= -->
+            <TextView
+                style="@style/P2.TituloSeccion"
+                android:text="@string/sec_anatomia" />
+
+            <TextView
+                style="@style/P2.DescripcionSeccion"
+                android:text="@string/sec_anatomia_desc" />
+
+            <!--
+                weightSum="4": la suma total de pesos es 4.
+                Hijos: 1 + 2 + 1 = 4 → 25 % | 50 % | 25 % del ancho.
+                showDividers + divider: dibuja un separador ENTRE hijos
+                (atributos propios de LinearLayout).
+            -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:divider="@drawable/divisor_8dp"
+                android:orientation="horizontal"
+                android:showDividers="middle"
+                android:weightSum="4">
+
+                <TextView
+                    style="@style/P2.BloquePeso"
+                    android:layout_weight="1"
+                    android:background="@drawable/fondo_bloque_primario"
+                    android:text="@string/peso_1"
+                    android:textColor="?attr/colorOnPrimaryContainer" />
+
+                <TextView
+                    style="@style/P2.BloquePeso"
+                    android:layout_weight="2"
+                    android:background="@drawable/fondo_bloque_secundario"
+                    android:text="@string/peso_2"
+                    android:textColor="?attr/colorOnSecondaryContainer" />
+
+                <TextView
+                    style="@style/P2.BloquePeso"
+                    android:layout_weight="1"
+                    android:background="@drawable/fondo_bloque_terciario"
+                    android:text="@string/peso_1"
+                    android:textColor="?attr/colorOnTertiaryContainer" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/P2.DescripcionSeccion"
+                android:layout_marginTop="12dp"
+                android:text="@string/gravedad_desc" />
+
+            <!--
+                gravity        → alinea el CONTENIDO del propio contenedor.
+                layout_gravity → lo pide el HIJO a su padre (aquí, eje horizontal
+                                 porque el padre es vertical).
+            -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/fondo_contenedor"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    style="@style/P2.EtiquetaGravedad"
+                    android:layout_gravity="start"
+                    android:text="@string/gravedad_inicio" />
+
+                <TextView
+                    style="@style/P2.EtiquetaGravedad"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/gravedad_centro" />
+
+                <TextView
+                    style="@style/P2.EtiquetaGravedad"
+                    android:layout_gravity="end"
+                    android:text="@string/gravedad_fin" />
+            </LinearLayout>
+
+            <!-- =========================================================
+                 2. EDITTEXT
+                 TextInputLayout (contenedor M3) + TextInputEditText
+                 (subclase de EditText). Nombre y Apellido comparten fila
+                 con pesos iguales (50 % / 50 %).
+                 ========================================================= -->
+            <TextView
+                style="@style/P2.TituloSeccion"
+                android:text="@string/sec_edittext" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:hint="@string/hint_nombre"
+                    app:startIconDrawable="@drawable/ic_person">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName|textCapWords" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/hint_apellido">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName|textCapWords" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <!-- Variante FilledBox con texto de ayuda (helperText) -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/hint_correo"
+                app:endIconMode="clear_text"
+                app:helperText="@string/helper_correo"
+                app:helperTextEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- EditText "a secas" para comparar con la versión Material -->
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:autofillHints="none"
+                android:hint="@string/hint_comentario"
+                android:inputType="text"
+                android:minHeight="48dp" />
+
+            <!-- =========================================================
+                 3. TEXTVIEW: escala tipográfica de Material 3
+                 ========================================================= -->
+            <TextView
+                style="@style/P2.TituloSeccion"
+                android:text="@string/sec_textview" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_display"
+                android:textAppearance="?attr/textAppearanceDisplaySmall" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_headline"
+                android:textAppearance="?attr/textAppearanceHeadlineSmall" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_title"
+                android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_body"
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_label"
+                android:textAppearance="?attr/textAppearanceLabelSmall" />
+
+            <!-- TextView dinámico: se actualiza desde Java al escribir el nombre -->
+            <TextView
+                android:id="@+id/tvVistaPrevia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/fondo_contenedor"
+                android:padding="12dp"
+                android:text="@string/tv_preview_vacio"
+                android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+            <!-- =========================================================
+                 4. BUTTON Y VARIANTES
+                 Fila 1: Filled / Tonal / Elevated con peso 1 cada uno.
+                 Fila 2: Outlined / Text / Con icono.
+                 Fila 3: botones de icono + grupo de selección (toggle).
+                 ========================================================= -->
+            <TextView
+                style="@style/P2.TituloSeccion"
+                android:text="@string/sec_buttons" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Filled (estilo por defecto de Button en un tema M3) -->
+                <Button
+                    android:id="@+id/btnFilled"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_filled" />
+
+                <Button
+                    android:id="@+id/btnTonal"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_tonal" />
+
+                <Button
+                    android:id="@+id/btnElevated"
+                    style="@style/Widget.Material3.Button.ElevatedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_elevated" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnOutlined"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_outlined" />
+
+                <Button
+                    android:id="@+id/btnText"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_text" />
+
+                <!-- MaterialButton con icono a la izquierda del texto -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnIcono"
+                    style="@style/Widget.Material3.Button.Icon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_icon_texto"
+                    app:icon="@drawable/ic_send" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Botón de icono estándar (sin contenedor) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnIconoFavorito"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/cd_btn_favorito"
+                    app:icon="@drawable/ic_favorite" />
+
+                <!-- Botón de icono con contenedor relleno -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnIconoAgregar"
+                    style="@style/Widget.Material3.Button.IconButton.Filled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/cd_btn_agregar"
+                    app:icon="@drawable/ic_add" />
+
+                <!-- Espaciador: vista vacía con peso 1 que empuja el grupo a la derecha -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <!-- Grupo segmentado: sólo un botón activo a la vez -->
+                <com.google.android.material.button.MaterialButtonToggleGroup
+                    android:id="@+id/toggleGrupo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:checkedButton="@+id/toggleSemana"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
+
+                    <Button
+                        android:id="@+id/toggleDia"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/toggle_dia" />
+
+                    <Button
+                        android:id="@+id/toggleSemana"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/toggle_semana" />
+
+                    <Button
+                        android:id="@+id/toggleMes"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/toggle_mes" />
+                </com.google.android.material.button.MaterialButtonToggleGroup>
+            </LinearLayout>
+
+            <!-- =========================================================
+                 5. CHIPS: Assist, Filter, Input y Suggestion
+                 ChipGroup NO es LinearLayout (es un FlowLayout): si los
+                 chips no caben en una fila, saltan a la siguiente.
+                 ========================================================= -->
+            <TextView
+                style="@style/P2.TituloSeccion"
+                android:text="@string/sec_chips" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.Material3.Chip.Assist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_assist"
+                    app:chipIcon="@drawable/ic_add" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipAndroid"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/chip_filter_android" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipJava"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_filter_java" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipUi"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_filter_ui" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipInput"
+                    style="@style/Widget.Material3.Chip.Input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_input" />
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/chip_suggestion" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:id="@+id/tvFiltros"
+                style="@style/P2.DescripcionSeccion"
+                android:text="@string/msg_filtros_ninguno" />
+
+            <!-- =========================================================
+                 6. CARDS: Elevated, Filled y Outlined
+                 Tres tarjetas en una fila con pesos iguales (33 % c/u).
+                 ========================================================= -->
+            <TextView
+                style="@style/P2.TituloSeccion"
+                android:text="@string/sec_cards" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardElevated"
+                    style="@style/Widget.Material3.CardView.Elevated"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <!-- Interior de la tarjeta: también es un LinearLayout -->
+                    <LinearLayout style="@style/P2.InteriorTarjeta">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_elevated"
+                            android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_desc"
+                            android:textAppearance="?attr/textAppearanceBodySmall" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardFilled"
+                    style="@style/Widget.Material3.CardView.Filled"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <LinearLayout style="@style/P2.InteriorTarjeta">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_filled"
+                            android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_desc"
+                            android:textAppearance="?attr/textAppearanceBodySmall" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- checkable="true": la tarjeta puede marcarse (muestra check) -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardOutlined"
+                    style="@style/Widget.Material3.CardView.Outlined"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:checkable="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:checkedIcon="@drawable/ic_check">
+
+                    <LinearLayout style="@style/P2.InteriorTarjeta">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_outlined"
+                            android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_outlined_desc"
+                            android:textAppearance="?attr/textAppearanceBodySmall" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- =========================================================
+                 7. CHECKBOX: columna vertical, selección múltiple
+                 ========================================================= -->
+            <TextView
+                style="@style/P2.TituloSeccion"
+                android:text="@string/sec_checkbox" />
+
+            <CheckBox
+                android:id="@+id/cbConstancia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cb_constancia" />
+
+            <CheckBox
+                android:id="@+id/cbMaterial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cb_material" />
+
+            <CheckBox
+                android:id="@+id/cbAviso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cb_aviso" />
+
+            <TextView
+                android:id="@+id/tvChecks"
+                style="@style/P2.DescripcionSeccion" />
+
+            <!-- =========================================================
+                 8. RADIOBUTTON
+                 RadioGroup HEREDA de LinearLayout: por eso acepta
+                 android:orientation. Garantiza selección única.
+                 ========================================================= -->
+            <TextView
+                style="@style/P2.TituloSeccion"
+                android:text="@string/sec_radio" />
+
+            <RadioGroup
+                android:id="@+id/rgModalidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@+id/rbPresencial"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbPresencial"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/rb_presencial" />
+
+                <RadioButton
+                    android:id="@+id/rbLinea"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/rb_linea" />
+
+                <RadioButton
+                    android:id="@+id/rbHibrido"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/rb_hibrido" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tvRadio"
+                style="@style/P2.DescripcionSeccion" />
+
+            <!-- =========================================================
+                 9. IMAGEVIEW: clásico vs. ShapeableImageView (M3)
+                 ========================================================= -->
+            <TextView
+                style="@style/P2.TituloSeccion"
+                android:text="@string/sec_imageview" />
+
+            <TextView
+                style="@style/P2.DescripcionSeccion"
+                android:text="@string/img_desc" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:background="@drawable/fondo_contenedor"
+                    android:contentDescription="@string/cd_logo"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/ic_launcher" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_marginStart="24dp"
+                    android:background="?attr/colorTertiaryContainer"
+                    android:contentDescription="@string/cd_avatar"
+                    android:padding="20dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_person"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.P2.Circulo"
+                    app:tint="?attr/colorOnTertiaryContainer" />
+            </LinearLayout>
+
+            <!-- =========================================================
+                 10. PROGRESSBAR
+                 - ProgressBar clásico (estilo horizontal del framework)
+                 - LinearProgressIndicator (M3, determinado)
+                 - CircularProgressIndicator (M3, indeterminado)
+                 ========================================================= -->
+            <TextView
+                style="@style/P2.TituloSeccion"
+                android:text="@string/sec_progress" />
+
+            <ProgressBar
+                android:id="@+id/pbClasico"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progress="40" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/lpiAvance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:max="100"
+                android:progress="40"
+                app:trackCornerRadius="4dp"
+                app:trackThickness="8dp" />
+
+            <TextView
+                android:id="@+id/tvProgreso"
+                style="@style/P2.DescripcionSeccion" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btnMenos"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/progress_menos" />
+
+                <Button
+                    android:id="@+id/btnMas"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/progress_mas" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- =============================================================
+         BARRA INFERIOR FIJA: queda fuera del scroll, siempre visible.
+         gravity="end" alinea el botón a la derecha de la fila.
+         ============================================================= -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurfaceContainer"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fabInscribirme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_inscribirme"
+            app:icon="@drawable/ic_check" />
+    </LinearLayout>
+</LinearLayout>

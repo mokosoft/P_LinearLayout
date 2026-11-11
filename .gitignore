@@ -1,0 +1,59 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+# Variables de entorno y secretos
+.env
+.env.*
+!.env.example
+*.env
+
+# Credenciales de Kubernetes
+kubeconfig
+*.kubeconfig
+.kube/
+
+# Llaves y certificados
+*.pem
+*.key
+*.crt
+*.gpg
+*.asc
+
+# Backups y datos generados
+backups/
+*.tar.gz
+*.sql
+*.sql.gz
+
+# Logs
+*.log
+logs/
+
+# Sistema/editor
+.DS_Store
+.vscode/
+*.swp
+
+# Configuración local sensible de Claude Code
+.claude/settings.local.json
+
+#configuraciones de claude, scripts y manuales
+
+CLAUDE.md
+manuales/
+salida/
+scripts/
+.claude/
+

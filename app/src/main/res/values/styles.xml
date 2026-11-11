@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Estilos reutilizables de la práctica.
+    Un "style" agrupa atributos repetidos para no copiarlos en cada vista
+    (principio DRY) y mantener la consistencia visual.
+-->
+<resources>
+
+    <!-- Título de cada sección (escala TitleMedium, color primario) -->
+    <style name="P2.TituloSeccion" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    <!-- Texto explicativo pequeño bajo cada sección -->
+    <style name="P2.DescripcionSeccion" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceBodySmall</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!-- Bloque de la demostración de pesos: ancho 0dp para que mande layout_weight -->
+    <style name="P2.BloquePeso" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">?attr/textAppearanceLabelLarge</item>
+    </style>
+
+    <!-- Etiqueta para la demostración de layout_gravity -->
+    <style name="P2.EtiquetaGravedad" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginVertical">4dp</item>
+        <item name="android:paddingHorizontal">12dp</item>
+        <item name="android:paddingVertical">6dp</item>
+        <item name="android:background">@drawable/fondo_bloque_primario</item>
+        <item name="android:textAppearance">?attr/textAppearanceLabelMedium</item>
+        <item name="android:textColor">?attr/colorOnPrimaryContainer</item>
+    </style>
+
+    <!-- LinearLayout vertical usado dentro de cada MaterialCardView -->
+    <style name="P2.InteriorTarjeta" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <!-- Forma circular (esquinas al 50 %) para ShapeableImageView -->
+    <style name="ShapeAppearance.P2.Circulo" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+</resources>
